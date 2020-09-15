@@ -1,0 +1,16 @@
+{
+  "extensions":{
+    "swellRewards": {
+      "merchantId": "__YOUR_MERCHANT_ID__",
+      "guid": "__YOUR_GUID__",
+      "apiKey": "__YOUR_API_KEY__",
+      "apiUrl": {
+        "v1": "https://app.swellrewards.com/api/v1",
+        "v2": "https://app.swellrewards.com/api/v2"
+      }
+    }
+  },
+  "registeredExtensions": [
+    "swell-rewards"
+  ]
+}
