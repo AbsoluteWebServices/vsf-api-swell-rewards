@@ -330,6 +330,44 @@ module.exports = ({ config, db }) => {
   })
 
   /**
+   * Identify Referrer
+   *
+   * This endpoint will create a referral link
+   */
+  swellApi.post('/referral-link', (req, res) => {
+    let data = req.body
+
+    if (!data.email) {
+      apiStatus(res, 'Customer email is required.', 400)
+      return
+    }
+
+    let request = require('request')
+
+    request({
+      url: config.extensions.swellRewards.apiUrl.v2 + '/referral/referrer',
+      method: 'POST',
+      headers: {
+        'x-guid': config.extensions.swellRewards.guid,
+        'x-api-key': config.extensions.swellRewards.apiKey
+      },
+      json: true,
+      body: data
+    }, (error, response, body) => {
+      if (error) {
+        apiStatus(res, error, 500)
+      } else {
+        let json = body
+
+        if (typeof json === 'string') {
+          json = JSON.parse(json)
+        }
+        apiStatus(res, json, response.statusCode)
+      }
+    })
+  })
+
+  /**
    * Fetch Active Redemption Options
    *
    * This endpoint returns a list of redemption options available for customers to redeem.
