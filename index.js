@@ -27,38 +27,6 @@ module.exports = ({ config, db }) => {
    * V1
    */
   /**
-   * Record a Customer Action
-   *
-   * This endpoint records an action performed by a customer.
-   * It will apply the action to all matching active campaigns and award the necessary points and/or discounts.
-   */
-  swellApi.post('/user_actions', (req, res) => {
-    let data = req.body
-    let request = require('request')
-
-    request({
-      url: config.extensions.swellRewards.apiUrl.v1 + '/user_actions',
-      method: 'POST',
-      headers: {
-        'x-merchant-id': config.extensions.swellRewards.merchantId,
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36' // it returns `point_redemption` only if user-agent is browser
-      },
-      json: true,
-      body: Object.assign({}, data, { merchant_id: config.extensions.swellRewards.merchantId })
-    }, (error, response, body) => {
-      if (error) {
-        apiStatus(res, error, 500)
-      } else {
-        let json = body
-
-        if (typeof json === 'string') {
-          json = JSON.parse(json)
-        }
-        apiStatus(res, json, response.statusCode)
-      }
-    })
-  })
-  /**
    * Identify Referrer
    *
    * This method takes an email address as a string to identify the email to attribute referred emails to.
