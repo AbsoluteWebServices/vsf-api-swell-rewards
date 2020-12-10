@@ -17,7 +17,7 @@ module.exports = ({ config, db }) => {
       userProxy.me(req.query.token).then(user => {
         resolve(user)
       }).catch(err => {
-        apiStatus(res, err, 500)
+        apiStatus(res, err, 401)
         reject(err)
       })
     })
